@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational App</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #2f4f4f;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        h1:hover {
+            color: #ff6347;  /* Change color on hover */
+        }
+
+        #btn {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s ease-in-out;
+        }
+
+        #btn:hover {
+            background-color: #45a049;
+            transform: scale(1.1);  /* Button hover effect */
+        }
+
+        #hello {
+            font-size: 1.3rem;
+            margin-top: 20px;
+            text-align: center;
+            color: #555;
+            font-style: italic;
+        }
+
+        /* Add cool background animation */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            background: linear-gradient(45deg, #f0f4f8, #6a9fe3);
+            animation: gradientBackground 10s ease-in-out infinite;
+        }
+
+        @keyframes gradientBackground {
+            0% {
+                background: linear-gradient(45deg, #f0f4f8, #6a9fe3);
+            }
+            50% {
+                background: linear-gradient(45deg, #6a9fe3, #f0f4f8);
+            }
+            100% {
+                background: linear-gradient(45deg, #f0f4f8, #6a9fe3);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            #btn {
+                padding: 12px 24px;
+                font-size: 1.2rem;
+            }
+
+            #hello {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="background"></div>
+
+    <h1 id="h">Motivational quotes by Rohit</h1>
+    <p id="err"></p>
+    <button id="btn" onclick="getd()">Get quotes</button>
+    <h4 id="hello"></h4>
+    <script>
+  let h = document.getElementById('h');
+ 
+
+function showLoading() {
+    let dots = 0;
+    return setInterval(() => {
+        h.innerText = `Getting Quote${'.'.repeat(dots % 4)}`;
+        dots++;
+    }, 500); 
+}
+
+async function getd() {
+    let loadingInterval = showLoading(); 
+
+    try {
+        let i = Math.floor(Math.random() * 200) + 1; 
+        const url = `https://rohitnode.onrender.com/api/line${i}`;
+        const response = await fetch(url);
+        const data = await response.json();
+        let line = data[`line${i}`];  
+        h.innerText = line; 
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        h.innerText = "Failed to get quote. Try again!";
+     
+    } finally {
+        clearInterval(loadingInterval); 
+    }
+}
+
+
+</script>
+</body>
+</html>
